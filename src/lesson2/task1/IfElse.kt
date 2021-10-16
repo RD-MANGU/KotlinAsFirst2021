@@ -3,8 +3,8 @@
 package lesson2.task1
 
 import lesson1.task1.discriminant
-import kotlin.math.max
-import kotlin.math.sqrt
+import lesson1.task1.sqr
+import kotlin.math.*
 
 // Урок 2: ветвления (здесь), логический тип (см. 2.2).
 // Максимальное количество баллов = 6
@@ -90,7 +90,19 @@ fun timeForHalfWay(
     t1: Double, v1: Double,
     t2: Double, v2: Double,
     t3: Double, v3: Double
-): Double = TODO()
+): Double {
+    val dist1 = t1 * v1
+    val dist2 = t2 * v2
+    val dist3 = t3 * v3
+    val halfDist = (dist1 + dist2 + dist3) / 2
+    return if (halfDist <= dist1) {
+        halfDist / v1
+    } else if (halfDist - dist1 <= dist2) {
+        t1 + (halfDist - dist1) / v2
+    } else {
+        t1 + t2 + (halfDist - dist1 - dist2) / v3
+    }
+}
 
 /**
  * Простая (2 балла)
@@ -105,7 +117,16 @@ fun whichRookThreatens(
     kingX: Int, kingY: Int,
     rookX1: Int, rookY1: Int,
     rookX2: Int, rookY2: Int
-): Int = TODO()
+): Int {
+    val firstRook = rookX1 == kingX || rookY1 == kingY
+    val secondRook = rookX2 == kingX || rookY2 == kingY
+    return when {
+        firstRook && secondRook -> 3
+        firstRook -> 1
+        secondRook -> 2
+        else -> 0
+    }
+}
 
 /**
  * Простая (2 балла)
@@ -121,7 +142,16 @@ fun rookOrBishopThreatens(
     kingX: Int, kingY: Int,
     rookX: Int, rookY: Int,
     bishopX: Int, bishopY: Int
-): Int = TODO()
+): Int {
+    val rookLn = rookX == kingX || rookY == kingY
+    val bishopLn = abs(bishopX - kingX) == abs(bishopY - kingY)
+    return when {
+        rookLn && bishopLn -> 3
+        rookLn -> 1
+        bishopLn -> 2
+        else -> 0
+    }
+}
 
 /**
  * Простая (2 балла)
@@ -131,7 +161,20 @@ fun rookOrBishopThreatens(
  * прямоугольным (вернуть 1) или тупоугольным (вернуть 2).
  * Если такой треугольник не существует, вернуть -1.
  */
-fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
+fun triangleKind(a: Double, b: Double, c: Double): Int {
+    val maxSide = maxOf(a, b, c)
+    val minSide = minOf(a, b, c)
+    val midSide = a + b + c - maxSide - minSide
+    return if (maxSide >= midSide + minSide) {
+        -1
+    } else if (sqr(maxSide) == sqr(midSide) + sqr(minSide)) {
+        1
+    } else if (sqr(midSide) + sqr(minSide) < sqr(maxSide)) {
+        2
+    } else {
+        0
+    }
+}
 
 /**
  * Средняя (3 балла)
@@ -141,4 +184,11 @@ fun triangleKind(a: Double, b: Double, c: Double): Int = TODO()
  * Найти длину пересечения отрезков AB и CD.
  * Если пересечения нет, вернуть -1.
  */
-fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int = TODO()
+fun segmentLength(a: Int, b: Int, c: Int, d: Int): Int {
+    val minEd = min(b, d)
+    val maxOp = max(a, c)
+    return when {
+        maxOp > minEd -> -1
+        else -> minEd - maxOp
+    }
+}
