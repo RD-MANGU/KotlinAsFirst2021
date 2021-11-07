@@ -238,7 +238,10 @@ fun convert(n: Int, base: Int): List<Int> {
  * (например, n.toString(base) и подобные), запрещается.
  */
 fun symbolOfDigit(n: Int): String = if (n in 0..9) "$n" else "${'a' + (n - 10)}"
-fun convertToString(n: Int, base: Int): String = convert(n, base).joinToString("") { symbolOfDigit(it) }
+fun convertToString(n: Int, base: Int): String {
+    if (n <= 0) throw Exception("Нужно число больше чем 0")
+    return convert(n, base).joinToString("") { symbolOfDigit(it) }
+}
 
 /**
  * Средняя (3 балла)
@@ -299,11 +302,7 @@ fun roman(n: Int): String {
  * Например, 375 = "триста семьдесят пять",
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
-fun chunkedInThree(n: Int, isThousand: Boolean): MutableList<String> {
-    val unitList = if (isThousand)
-        listOf("", "одна", "две", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять")
-    else
-        listOf("", "один", "два", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять")
+fun chunkedInThree(n: Int, unitList: List<String>, isThousand: Boolean): MutableList<String> {
     val tenSubList = listOf(
         "десять", "одиннадцать", "двенадцать", "тринадцать", "четырнадцать",
         "пятнадцать", "шестнадцать", "семьнадцать", "восемнадцать", "девятнадцать"
@@ -333,52 +332,9 @@ fun chunkedInThree(n: Int, isThousand: Boolean): MutableList<String> {
 fun russian(n: Int): String {
     var isThousand = false
     if (digitNumber(n) > 3) isThousand = true
-    val thousandPart = chunkedInThree(n / 1000, isThousand) // n / 1000 --> Взять первые три
-    val hundredPart = chunkedInThree(n % 1000, isThousand = false) // n % 1000 --> Взять последние три
+    val thousandUnitList = listOf("", "одна", "две", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять")
+    val hundredUnitList = listOf("", "один", "два", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять")
+    val thousandPart = chunkedInThree(n / 1000, thousandUnitList, isThousand) // n / 1000 --> Взять первые три
+    val hundredPart = chunkedInThree(n % 1000, hundredUnitList, isThousand = false) // n % 1000 --> Взять последние три
     return (thousandPart + hundredPart).joinToString(" ")
 }
-
-// Прошлый код. Лучше?
-//val hundredList = listOf("", "сто", "двести", "триста", "четыреста", "пятьсот", "шестьсот", "семьсот", "восемьсот", "девятьсот")
-//    val tenList = listOf("", "десять", "двадцать", "тридцать", "сорок", "пятьдесят", "шестьдесят", "семьдесят", "восемьдесят", "девяносто")
-//    val tenSubList = listOf("десять", "одиннадцать", "двенадцать", "тринадцать", "четырнадцать", "пятнадцать", "шестнадцать", "семьнадцать","восемнадцать", "девятнадцать")
-//    val thousand = n / 1000
-//    val hundred = n / 100 % 10
-//    val ten = n / 10 % 10
-//    val unit = n % 10
-//    val res = mutableListOf<String>()
-//    val unitList = if (thousand % 10 != 0) listOf("", "одна", "две", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять") else listOf("", "один", "два", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять")
-//    when (digitNumber(thousand)) {
-//        3 -> {
-//            res.add(hundredList[thousand / 100])
-//            when (thousand / 10 % 10) {
-//                1 -> res.add(tenSubList[thousand % 10])
-//                else -> {
-//                    res.add(tenList[thousand / 10 % 10])
-//                    if (thousand % 10 != 0) res.add(unitList[thousand % 10])
-//                }
-//            }
-//        }
-//        2 -> {
-//            if (thousand / 10 == 1) res.add(tenSubList[thousand % 10])
-//            else {
-//                res.add(tenList[thousand / 10])
-//                res.add(unitList[thousand % 10])
-//            }
-//        }
-//        1 -> res.add(unitList[thousand])
-//        else -> res.add("")
-//    }
-//    if (thousand != 0 && n > 0) {
-//        if (thousand / 10 % 10 == 1) res.add("тысяч")
-//        else if (thousand % 10 == 1) res.add("тысяча")
-//        else if (thousand % 10 in 2..4) res.add("тысячи")
-//        else res.add("тысяч")
-//    }
-//    if (hundred != 0) res.add(hundredList[hundred])
-//    when {
-//        ten == 1 -> res.add(tenSubList[unit])
-//        ten != 0 -> res.add(tenList[ten])
-//    }
-//    if (ten != 1 && unit != 0) res.add(unitList[unit])
-//    return (res.filter { it != "" }.joinToString(" "))
