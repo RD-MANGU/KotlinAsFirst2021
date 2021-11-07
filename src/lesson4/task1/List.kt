@@ -216,6 +216,7 @@ fun factorizeToString(n: Int): String = factorize(n).joinToString("*")
  * например: n = 100, base = 4 -> (1, 2, 1, 0) или n = 250, base = 14 -> (1, 3, 12)
  */
 fun convert(n: Int, base: Int): List<Int> {
+    if (n <= 0) throw Exception("Нужно число больше чем 0")
     val listRemainder = mutableListOf<Int>()
     var z = n
     do {
