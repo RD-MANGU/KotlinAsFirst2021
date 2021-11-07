@@ -233,11 +233,10 @@ fun sin(x: Double, eps: Double): Double {
     if (theta < 0) theta += 2 * Math.PI
     var res = theta
 
-    var memberSeq: Double
     var termSign = -1
     var power = 3
     while (true) {
-        memberSeq = (theta.pow(power) / factorial(power)) * termSign
+        val memberSeq = (theta.pow(power) / factorial(power)) * termSign
         res += memberSeq
         if (abs(memberSeq) < eps) return res
         termSign *= -1
@@ -259,11 +258,10 @@ fun cos(x: Double, eps: Double): Double {
     if (theta < 0) theta += 2 * Math.PI
     var res = 1.0
 
-    var memberSeq: Double
     var termSign = -1
     var power = 2
     while (true) {
-        memberSeq = (theta.pow(power) / factorial(power)) * termSign
+        val memberSeq = (theta.pow(power) / factorial(power)) * termSign
         res += memberSeq
         if (abs(memberSeq) < eps) return res
         termSign *= -1
