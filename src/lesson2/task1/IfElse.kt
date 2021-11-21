@@ -162,14 +162,11 @@ fun triangleKind(a: Double, b: Double, c: Double): Int {
     val maxSide = maxOf(a, b, c)
     val minSide = minOf(a, b, c)
     val midSide = a + b + c - maxSide - minSide
-    return if (maxSide >= midSide + minSide) {
-        -1
-    } else if (sqr(maxSide) == sqr(midSide) + sqr(minSide)) {
-        1
-    } else if (sqr(midSide) + sqr(minSide) < sqr(maxSide)) {
-        2
-    } else {
-        0
+    return when {
+        maxSide >= midSide + minSide -> -1
+        sqr(maxSide) == sqr(midSide) + sqr(minSide) -> 1
+        sqr(midSide) + sqr(minSide) < sqr(maxSide) -> 2
+        else -> 0
     }
 }
 
