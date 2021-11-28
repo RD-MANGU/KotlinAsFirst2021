@@ -278,13 +278,23 @@ fun cos(x: Double, eps: Double): Double {
  *
  * Использовать операции со строками в этой задаче запрещается.
  */
+fun power(base: Int, exponent: Int): Int {
+    var exp = exponent
+    var result = 1
+    while (exp != 0) {
+        result *= base
+        --exp
+    }
+    return result
+}
+
 fun squareSequenceDigit(n: Int): Int {
     val digit = mutableListOf<Int>()
     for (i in 1..n) {
         val elementSeq = i * i
         if (digitNumber(elementSeq) > 1) {
             for (j in 1 until digitNumber(elementSeq)) {
-                digit.add(((elementSeq / (10.0).pow(digitNumber(elementSeq) - j)).toInt()) % 10)
+                digit.add((elementSeq / power(10, digitNumber(elementSeq) - j)) % 10)
             }
             digit.add(elementSeq % 10)
         } else {
@@ -309,7 +319,7 @@ fun fibSequenceDigit(n: Int): Int {
         val elementSeq = fib(i)
         if (digitNumber(elementSeq) > 1) {
             for (j in 1 until digitNumber(elementSeq)) {
-                digit.add(((elementSeq / (10.0).pow(digitNumber(elementSeq) - j)).toInt()) % 10)
+                digit.add((elementSeq / power(10, digitNumber(elementSeq) - j)) % 10)
             }
             digit.add(elementSeq % 10)
         } else {
