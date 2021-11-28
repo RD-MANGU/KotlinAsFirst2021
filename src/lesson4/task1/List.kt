@@ -216,7 +216,7 @@ fun factorizeToString(n: Int): String = factorize(n).joinToString("*")
  * например: n = 100, base = 4 -> (1, 2, 1, 0) или n = 250, base = 14 -> (1, 3, 12)
  */
 fun convert(n: Int, base: Int): List<Int> {
-    if (n <= 0) throw Exception("Нужно число больше чем 0")
+    if (n < 0 || base <= 1) throw Exception("Нужно число >= 0 И основание больше 1")
     val listRemainder = mutableListOf<Int>()
     var z = n
     do {
@@ -239,7 +239,7 @@ fun convert(n: Int, base: Int): List<Int> {
  */
 fun symbolOfDigit(n: Int): String = if (n in 0..9) "$n" else "${'a' + (n - 10)}"
 fun convertToString(n: Int, base: Int): String {
-    if (n <= 0) throw Exception("Нужно число больше чем 0")
+    if (n < 0 || base <= 1 || base >= 37) throw Exception("Нужно число >= 0 И оснавание должно быть внутри интервала (1, 37))")
     return convert(n, base).joinToString("") { symbolOfDigit(it) }
 }
 
@@ -302,17 +302,17 @@ fun roman(n: Int): String {
  * Например, 375 = "триста семьдесят пять",
  * 23964 = "двадцать три тысячи девятьсот шестьдесят четыре"
  */
+val tenList = listOf(
+    "", "десять", "двадцать", "тридцать", "сорок", "пятьдесят",
+    "шестьдесят", "семьдесят", "восемьдесят", "девяносто"
+)
+val tenSubList = listOf(
+    "десять", "одиннадцать", "двенадцать", "тринадцать", "четырнадцать",
+    "пятнадцать", "шестнадцать", "семьнадцать", "восемнадцать", "девятнадцать"
+)
+val hundredList =
+    listOf("", "сто", "двести", "триста", "четыреста", "пятьсот", "шестьсот", "семьсот", "восемьсот", "девятьсот")
 fun chunkedInThree(n: Int, unitList: List<String>, isThousand: Boolean): MutableList<String> {
-    val tenSubList = listOf(
-        "десять", "одиннадцать", "двенадцать", "тринадцать", "четырнадцать",
-        "пятнадцать", "шестнадцать", "семьнадцать", "восемнадцать", "девятнадцать"
-    )
-    val tenList = listOf(
-        "", "десять", "двадцать", "тридцать", "сорок", "пятьдесят",
-        "шестьдесят", "семьдесят", "восемьдесят", "девяносто"
-    )
-    val hundredList =
-        listOf("", "сто", "двести", "триста", "четыреста", "пятьсот", "шестьсот", "семьсот", "восемьсот", "девятьсот")
     val returnString = mutableListOf<String>()
     val hundred = n / 100 % 10
     val ten = n / 10 % 10
