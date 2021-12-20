@@ -379,7 +379,7 @@ fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<Strin
     for (idx in 1..treasures.size)
         for (mass in 0..capacity)
             if (mass >= listOfMass[idx - 1])
-                prices[idx][mass] = maxOf(prices[idx - 1][mass], listOfPrices[idx - 1])
+                prices[idx][mass] = maxOf(prices[idx - 1][mass], prices[idx - 1][mass - listOfMass[idx - 1]] + listOfPrices[idx - 1])
             else
                 prices[idx][mass] = prices[idx - 1][mass]
     var m = capacity
