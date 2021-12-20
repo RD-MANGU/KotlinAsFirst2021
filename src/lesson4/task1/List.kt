@@ -346,6 +346,7 @@ fun russian(n: Int): String {
         "восемь",
         "девять"
     ) else listOf("", "один", "два", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять")
+    val unitList2 = listOf("", "один", "два", "три", "четыре", "пять", "шесть", "семь", "восемь", "девять")
     when (digitNumber(thousand)) {
         3 -> {
             res.add(hundredList[thousand / 100])
@@ -378,6 +379,6 @@ fun russian(n: Int): String {
         ten == 1 -> res.add(tenSubList[unit])
         ten != 0 -> res.add(tenList[ten])
     }
-    if (ten != 1 && unit != 0) res.add(unitList[unit])
+    if (ten != 1 && unit != 0) res.add(unitList2[unit])
     return (res.filter { it != "" }.joinToString(" "))
 }
