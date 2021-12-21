@@ -128,20 +128,17 @@ fun dateStrToDigit(str: String): String {
  * входными данными.
  */
 fun dateDigitToStr(digital: String): String {
-    val day: Int
-    val month: String
-    val year: Int
     val date = digital.split('.')
     if (date.size != 3) return ""
     try {
-        day = date[0].toInt()
-        month = months[date[1].toInt()] ?: throw NumberFormatException("Попробуйте дать правильный месяц")
-        year = date[2].toInt()
+        val day = date[0].toInt()
+        val month = months[date[1].toInt()] ?: throw NumberFormatException("Попробуйте дать правильный месяц")
+        val year = date[2].toInt()
+        if (day < 1 || day > daysInMonth(date[1].toInt(), year)) return ""
+        return String.format("%d %s %d", day, month, year)
     } catch (e: NumberFormatException) {
         return ""
     }
-    if (day < 1 || day > daysInMonth(date[1].toInt(), year)) return ""
-    return String.format("%d %s %d", day, month, year)
 }
 
 /**
@@ -170,20 +167,7 @@ fun flattenPhoneNumber(phone: String): String = TODO()
  * Прочитать строку и вернуть максимальное присутствующее в ней число (717 в примере).
  * При нарушении формата входной строки или при отсутствии в ней чисел, вернуть -1.
  */
-fun bestLongJump(jumps: String): Int {
-    val score = setOf("%", "-")
-    val setJumps = jumps.split(' ')
-    var maxJump = -1
-    for (jump in setJumps) {
-        if (jump in score) continue
-        try {
-            maxJump = maxOf(maxJump, jump.toInt())
-        } catch (e: NumberFormatException) {
-            return -1
-        }
-    }
-    return maxJump
-}
+fun bestLongJump(jumps: String): Int = TODO()
 
 /**
  * Сложная (6 баллов)
@@ -196,25 +180,7 @@ fun bestLongJump(jumps: String): Int {
  * При нарушении формата входной строки, а также в случае отсутствия удачных попыток,
  * вернуть -1.
  */
-fun bestHighJump(jumps: String): Int {
-    val score = setOf('%', '-', '+')
-    val setJumps = jumps.split(' ')
-    var maxJump = -1
-    if (setJumps.size % 2 != 0) return -1
-    for (i in setJumps.indices step 2) {
-        val jump: Int
-        val attempts = setJumps[i + 1].toSet()
-        try {
-            jump = setJumps[i].toInt()
-        } catch (e: NumberFormatException) {
-            return -1
-        }
-        if (jump <= maxJump) continue
-        if (attempts.any { it !in score }) return -1
-        if ('+' in attempts) maxJump = maxOf(jump, maxJump)
-    }
-    return maxJump
-}
+fun bestHighJump(jumps: String): Int = TODO()
 
 /**
  * Сложная (6 баллов)
@@ -249,24 +215,7 @@ fun firstDuplicateIndex(str: String): Int = TODO()
  * или пустую строку при нарушении формата строки.
  * Все цены должны быть больше нуля либо равны нулю.
  */
-fun mostExpensive(description: String): String {
-    val data = description.split("; ")
-    var maxProduct = Pair("", -1.0)
-    for (strProduct in data) {
-        val inf = strProduct.split(' ')
-        if (inf.size != 2) return ""
-        val name = inf[0]
-        val price: Double
-        try {
-            price = inf[1].toDouble()
-        } catch (e: NumberFormatException) {
-            return ""
-        }
-        if (price < 0) return ""
-        if (price > maxProduct.second) maxProduct = Pair(name, price)
-    }
-    return maxProduct.first
-}
+fun mostExpensive(description: String): String = TODO()
 
 /**
  * Сложная (6 баллов)
@@ -279,14 +228,15 @@ fun mostExpensive(description: String): String {
  *
  * Вернуть -1, если roman не является корректным римским числом
  */
+val digits = mapOf(
+    'I' to 1, 'V' to 5, 'X' to 10, 'L' to 50, 'C' to 100, 'D' to 500, 'M' to 1000,
+)
+
 fun fromRoman(roman: String): Int {
-    val digits = mapOf(
-        'I' to 1, 'V' to 5, 'X' to 10, 'L' to 50, 'C' to 100, 'D' to 500, 'M' to 1000,
-    )
     if (roman.any { it !in digits.keys }) return -1
     val list = roman.map { digits[it]!! }
     if (list.isEmpty()) return -1
-    var result = list[list.size - 1]
+    var result = list.last()
     for (i in list.size - 2 downTo 0) {
         if (list[i + 1] > list[i]) result -= list[i]
         else result += list[i]

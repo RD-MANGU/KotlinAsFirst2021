@@ -302,18 +302,7 @@ fun setOfFriends(
     return set
 }
 
-fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<String>> {
-    val map = mutableMapOf<String, Set<String>>()
-    for (person in friends.keys) {
-        val set = setOfFriends(friends, person)
-        set.remove(person)
-        map[person] = set.toSet()
-        for (friend in set) {
-            if (friend !in friends && friend !in map) map[friend] = setOf()
-        }
-    }
-    return map
-}
+fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<String>> = TODO()
 
 
 /**
@@ -379,7 +368,8 @@ fun bagPacking(treasures: Map<String, Pair<Int, Int>>, capacity: Int): Set<Strin
     for (idx in 1..treasures.size)
         for (mass in 0..capacity)
             if (mass >= listOfMass[idx - 1])
-                prices[idx][mass] = maxOf(prices[idx - 1][mass], prices[idx - 1][mass - listOfMass[idx - 1]] + listOfPrices[idx - 1])
+                prices[idx][mass] =
+                    maxOf(prices[idx - 1][mass], prices[idx - 1][mass - listOfMass[idx - 1]] + listOfPrices[idx - 1])
             else
                 prices[idx][mass] = prices[idx - 1][mass]
     var m = capacity
