@@ -277,21 +277,32 @@ fun decimalFromString(str: String, base: Int): Int = decimal(str.map { digitOfSy
  * 90 = XC, 100 = C, 400 = CD, 500 = D, 900 = CM, 1000 = M.
  * Например: 23 = XXIII, 44 = XLIV, 100 = C
  */
-fun getDigitEquivalent(n: Int, unit: String, five: String, ten: String) =
-    when (n) {
-        0 -> ""
-        in 1..3 -> unit.repeat(n)
-        4 -> unit + five
-        in 5..8 -> five + unit.repeat(n - 5)
-        else -> unit + ten
-    }
-
 fun roman(n: Int): String {
+    val rules = mutableMapOf(
+        "M" to 1000,
+        "CM" to 900,
+        "D" to 500,
+        "CD" to 400,
+        "C" to 100,
+        "XC" to 90,
+        "L" to 50,
+        "XL" to 40,
+        "X" to 10,
+        "IX" to 9,
+        "V" to 5,
+        "IV" to 4,
+        "I" to 1
+    )
     var res = ""
-    res += "M".repeat(n / 1000)
-    res += getDigitEquivalent(n / 100 % 10, "C", "D", "M")
-    res += getDigitEquivalent(n / 10 % 10, "X", "L", "C")
-    res += getDigitEquivalent(n % 10, "I", "V", "X")
+    var num = n
+    val roman = (rules.keys).toTypedArray()
+    for (i in 0 until rules.size) {
+        val const = rules[roman[i]]!!.toInt()
+        while (num >= const) {
+            num -= const
+            res += roman[i]
+        }
+    }
     return res
 }
 
