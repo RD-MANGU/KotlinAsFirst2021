@@ -289,21 +289,7 @@ fun hasAnagrams(words: List<String>): Boolean {
  *          "GoodGnome" to setOf()
  *        )
  */
-fun setOfFriends(
-    friends: Map<String, Set<String>>,
-    person: String,
-    set: MutableSet<String> = mutableSetOf()
-): MutableSet<String> {
-    if (person in set) return set else set.add(person)
-    if (person !in friends) return set
-    for (friend in friends[person]!!) {
-        if (friend !in set) setOfFriends(friends, friend, set)
-    }
-    return set
-}
-
 fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<String>> = TODO()
-
 
 /**
  * Сложная (6 баллов)

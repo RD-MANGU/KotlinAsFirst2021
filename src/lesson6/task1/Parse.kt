@@ -7,7 +7,6 @@ package lesson6.task1
 // Рекомендуемое количество баллов = 11
 // Вместе с предыдущими уроками (пять лучших, 2-6) = 40/54
 import lesson2.task2.daysInMonth
-import lesson4.task1.roman
 
 /**
  * Пример
@@ -191,7 +190,26 @@ fun bestHighJump(jumps: String): Int = TODO()
  * Вернуть значение выражения (6 для примера).
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
-fun plusMinus(expression: String): Int = TODO()
+fun plusMinus(expression: String): Int {
+    val listChar = expression.split(Regex("""\s+""")).filter { it != "" }
+    if (listChar.size % 2 != 1) throw IllegalArgumentException("String is invalid")
+    val listSign = expression.split(Regex("""\d+""")).filter { it != "" }.map { it.replace("\\s".toRegex(), "") }
+    for (sign in listSign) {
+        if (sign.length != 1 || listSign.size == listChar.size) throw IllegalArgumentException("String is invalid") else continue
+    }
+    var acc = listChar[0].toInt()
+    var res = 0
+    for (char in 2 until listChar.size step 2) {
+        res = when (listChar[char - 1]) {
+            "+" -> acc + listChar[char].toInt()
+            "-" -> acc - listChar[char].toInt()
+            else -> throw IllegalArgumentException("String is invalid")
+        }
+        acc =
+            if (listChar[char - 1] == "+") acc + listChar[char].toInt() else acc - listChar[char].toInt()
+    }
+    return if (listChar.size == 1 && listSign.isEmpty()) acc else res
+}
 
 /**
  * Сложная (6 баллов)
@@ -202,7 +220,20 @@ fun plusMinus(expression: String): Int = TODO()
  * Вернуть индекс начала первого повторяющегося слова, или -1, если повторов нет.
  * Пример: "Он пошёл в в школу" => результат 9 (индекс первого 'в')
  */
-fun firstDuplicateIndex(str: String): Int = TODO()
+fun firstDuplicateIndex(str: String): Int {
+    val strLowerCase = str.lowercase()
+    val listString = strLowerCase.split(" ")
+    if (listString.size < 2) return -1
+    var res = ""
+    for (string in listString.indices) {
+        val prev = listString[string]
+        if (prev == listString[string + 1]) {
+            res = prev + " " + listString[string + 1]
+            break
+        }
+    }
+    return strLowerCase.indexOf(res)
+}
 
 /**
  * Сложная (6 баллов)
@@ -228,22 +259,7 @@ fun mostExpensive(description: String): String = TODO()
  *
  * Вернуть -1, если roman не является корректным римским числом
  */
-val digits = mapOf(
-    'I' to 1, 'V' to 5, 'X' to 10, 'L' to 50, 'C' to 100, 'D' to 500, 'M' to 1000,
-)
-
-fun fromRoman(roman: String): Int {
-    if (roman.any { it !in digits.keys }) return -1
-    val list = roman.map { digits[it]!! }
-    if (list.isEmpty()) return -1
-    var result = list.last()
-    for (i in list.size - 2 downTo 0) {
-        if (list[i + 1] > list[i]) result -= list[i]
-        else result += list[i]
-    }
-    if (roman(result) == roman) return result
-    return -1
-}
+fun fromRoman(roman: String): Int = TODO()
 
 /**
  * Очень сложная (7 баллов)
