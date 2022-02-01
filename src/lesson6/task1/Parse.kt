@@ -191,7 +191,7 @@ fun bestHighJump(jumps: String): Int = TODO()
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
 fun plusMinus(expression: String): Int {
-    if (expression.split(Regex("""\w""")).isNotEmpty()) throw IllegalArgumentException("String is invalid")
+    if (expression.split(Regex("""\D""")).isNotEmpty()) throw IllegalArgumentException("String is invalid")
     val listChar = expression.split(Regex("""\s+""")).filter { it != "" }
     if (listChar.size % 2 != 1) throw IllegalArgumentException("String is invalid")
     val listSign = expression.split(Regex("""\d+""")).filter { it != "" }.map { it.replace("\\s".toRegex(), "") }
@@ -233,7 +233,7 @@ fun firstDuplicateIndex(str: String): Int {
             break
         }
     }
-    return strLowerCase.indexOf(res)
+    return if (strLowerCase.indexOf(res) == null) -1 else strLowerCase.indexOf(res)
 }
 
 /**
