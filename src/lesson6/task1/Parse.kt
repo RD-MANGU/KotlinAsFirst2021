@@ -6,7 +6,7 @@ package lesson6.task1
 // Максимальное количество баллов = 13
 // Рекомендуемое количество баллов = 11
 // Вместе с предыдущими уроками (пять лучших, 2-6) = 40/54
-import lesson2.task2.daysInMonth
+//import lesson2.task2.daysInMonth
 
 /**
  * Пример
@@ -74,46 +74,47 @@ fun main() {
  *
  * Обратите внимание: некорректная с точки зрения календаря дата (например, 30.02.2009) считается неверными
  * входными данными.
- */
-val months = mapOf(
-    1 to "января",
-    2 to "февраля",
-    3 to "марта",
-    4 to "апреля",
-    5 to "мая",
-    6 to "июня",
-    7 to "июля",
-    8 to "августа",
-    9 to "сентября",
-    10 to "октября",
-    11 to "ноября",
-    12 to "декабря"
-)
-
-fun <K, V> getKey(map: Map<K, V>, value: V): K? {
-    for (key in map.keys) {
-        if (value == map[key]) {
-            return key
-        }
-    }
-    return null
-}
+ * */
+//val months = mapOf(
+//    1 to "января",
+//    2 to "февраля",
+//    3 to "марта",
+//    4 to "апреля",
+//    5 to "мая",
+//    6 to "июня",
+//    7 to "июля",
+//    8 to "августа",
+//    9 to "сентября",
+//    10 to "октября",
+//    11 to "ноября",
+//    12 to "декабря"
+//)
+//
+//fun <K, V> getKey(map: Map<K, V>, value: V): K? {
+//    for (key in map.keys) {
+//        if (value == map[key]) {
+//            return key
+//        }
+//    }
+//    return null
+//}
 
 fun dateStrToDigit(str: String): String {
-    val day: Int
-    val month: Int
-    val year: Int
-    val date = str.split(' ')
-    if (date.size != 3) return ""
-    try {
-        day = date[0].toInt()
-        month = getKey(months, date[1]) ?: throw NumberFormatException("Попробуйте дать правильный месяц")
-        year = date[2].toInt()
-    } catch (e: NumberFormatException) {
-        return ""
-    }
-    if (day < 1 || day > daysInMonth(month, year)) return ""
-    return String.format("%02d.%02d.%d", day, month, year)
+    TODO()
+//    val day: Int
+//    val month: Int
+//    val year: Int
+//    val date = str.split(' ')
+//    if (date.size != 3) return ""
+//    try {
+//        day = date[0].toInt()
+//        month = getKey(months, date[1]) ?: throw NumberFormatException("Попробуйте дать правильный месяц")
+//        year = date[2].toInt()
+//    } catch (e: NumberFormatException) {
+//        return ""
+//    }
+//    if (day < 1 || day > daysInMonth(month, year)) return ""
+//    return String.format("%02d.%02d.%d", day, month, year)
 }
 
 /**
@@ -127,17 +128,18 @@ fun dateStrToDigit(str: String): String {
  * входными данными.
  */
 fun dateDigitToStr(digital: String): String {
-    val date = digital.split('.')
-    if (date.size != 3) return ""
-    try {
-        val day = date[0].toInt()
-        val month = months[date[1].toInt()] ?: throw NumberFormatException("Попробуйте дать правильный месяц")
-        val year = date[2].toInt()
-        if (day < 1 || day > daysInMonth(date[1].toInt(), year)) return ""
-        return String.format("%d %s %d", day, month, year)
-    } catch (e: NumberFormatException) {
-        return ""
-    }
+    TODO()
+//    val date = digital.split('.')
+//    if (date.size != 3) return ""
+//    try {
+//        val day = date[0].toInt()
+//        val month = months[date[1].toInt()] ?: throw NumberFormatException("Попробуйте дать правильный месяц")
+//        val year = date[2].toInt()
+//        if (day < 1 || day > daysInMonth(date[1].toInt(), year)) return ""
+//        return String.format("%d %s %d", day, month, year)
+//    } catch (e: NumberFormatException) {
+//        return ""
+//    }
 }
 
 /**
@@ -191,7 +193,7 @@ fun bestHighJump(jumps: String): Int = TODO()
  * Про нарушении формата входной строки бросить исключение IllegalArgumentException
  */
 fun plusMinus(expression: String): Int {
-    if (expression.split(Regex("""\D""")).isNotEmpty()) throw IllegalArgumentException("String is invalid")
+    if (expression.matches(Regex("""\D"""))) throw IllegalArgumentException("String is invalid")
     val listChar = expression.split(Regex("""\s+""")).filter { it != "" }
     if (listChar.size % 2 != 1) throw IllegalArgumentException("String is invalid")
     val listSign = expression.split(Regex("""\d+""")).filter { it != "" }.map { it.replace("\\s".toRegex(), "") }
