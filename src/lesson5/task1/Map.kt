@@ -289,7 +289,86 @@ fun hasAnagrams(words: List<String>): Boolean {
  *          "GoodGnome" to setOf()
  *        )
  */
-fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<String>> = TODO()
+fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<String>> {
+    val friendsMap = friends.toMutableMap()
+    val receptorsList = mutableListOf<List<String>>()
+    val emittersList = mutableListOf<String>()
+
+    for (receptor in friends.values) {
+        receptorsList.add(receptor.toList())
+    }
+    for (emitter in friends.keys) {
+        emittersList.add(emitter)
+    }
+
+    for (receptors in receptorsList.indices) {
+        val receptorsArray = receptorsList[receptors]
+        val e = emittersList[receptors]
+        for (receptor in receptorsArray) {
+            if (receptor !in emittersList) {
+                println("$receptor !in $emittersList")
+                continue
+            }
+            if (friendsMap[e]!!.contains(friendsMap[receptor] ?: false) && friendsMap[receptor]!!.contains(e)) continue
+            else if (friendsMap[e]!!.contains(friendsMap[receptor] ?: true)) friendsMap[receptor] =
+                friendsMap[receptor]!! + friendsMap[e]!!.filter { it != receptor }   //- receptor
+            else friendsMap[e] = friendsMap[e]!! + friendsMap[receptor]!!.filter { it != e }     //- e
+        }
+    }
+
+    receptorsList.forEach { receptor ->
+        receptor.forEach {
+            while (it !in emittersList) {
+                emittersList.add(it)
+            }
+        }
+    }
+    for (emitter in emittersList.indices) {
+        val e = emittersList[emitter]
+        if (e !in friends.keys) friendsMap[e] = setOf()
+    }
+    return friendsMap
+}
+
+//val friendsMap = friends.toMutableMap()
+//val receptorsList = mutableListOf<List<String>>()
+//val emittersList = mutableListOf<String>()
+//for (receptor in friends.values) {
+//    receptorsList.add(receptor.toList())
+//}
+//for (emitter in friends.keys) {
+//    emittersList.add(emitter)
+//}
+////
+////
+////
+//
+//for (receptors in receptorsList.indices) {
+//    val receptorsArray = receptorsList[receptors]
+//    val e = emittersList[receptors]
+//    for (receptor in receptorsArray) {
+//        if (receptor !in emittersList) {
+//            println("$receptor !in $emittersList")
+//            continue
+//        }
+//        if (friendsMap[e]!!.contains(receptor) && friendsMap[receptor]!!.contains(e)) continue
+//        else if (friendsMap[e]!!.contains(receptor)) friendsMap[receptor] = friendsMap[receptor]!! + e
+//        else friendsMap[e] = friendsMap[e]!! + receptor
+//    }
+//}
+////
+//receptorsList.forEach { receptor ->
+//    receptor.forEach {
+//        while (it !in emittersList) {
+//            emittersList.add(it)
+//        }
+//    }
+//}
+//for (emitter in emittersList.indices) {
+//    val e = emittersList[emitter]
+//    if (e !in friends.keys) friendsMap[e] = setOf()
+//}
+//return friendsMap
 
 /**
  * Сложная (6 баллов)
