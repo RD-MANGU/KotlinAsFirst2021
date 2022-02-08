@@ -312,7 +312,6 @@ fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<Stri
             else friendsMap[e] = friendsMap[e]!! + friendsMap[receptor]!!.filter { it != e }     //- e
         }
     }
-
     receptorsList.forEach { receptor ->
         receptor.forEach {
             while (it !in friendsMap.keys) {
@@ -332,10 +331,6 @@ fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<Stri
 //for (emitter in friends.keys) {
 //    emittersList.add(emitter)
 //}
-////
-////
-////
-//
 //for (receptors in receptorsList.indices) {
 //    val receptorsArray = receptorsList[receptors]
 //    val e = emittersList[receptors]
@@ -349,7 +344,6 @@ fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<Stri
 //        else friendsMap[e] = friendsMap[e]!! + receptor
 //    }
 //}
-////
 //receptorsList.forEach { receptor ->
 //    receptor.forEach {
 //        while (it !in emittersList) {
