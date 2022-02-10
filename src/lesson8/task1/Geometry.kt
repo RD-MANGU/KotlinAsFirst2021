@@ -3,10 +3,8 @@
 package lesson8.task1
 
 import lesson1.task1.sqr
-import kotlin.math.PI
-import kotlin.math.cos
-import kotlin.math.sin
-import kotlin.math.sqrt
+import kotlin.math.*
+
 
 // Урок 8: простые классы
 // Максимальное количество баллов = 40 (без очень трудных задач = 11)
@@ -82,14 +80,17 @@ data class Circle(val center: Point, val radius: Double) {
      * расстояние между их центрами минус сумма их радиусов.
      * Расстояние между пересекающимися окружностями считать равным 0.0.
      */
-    fun distance(other: Circle): Double = TODO()
+    fun distance(other: Circle): Double {
+        val distCircle = center.distance(other.center) - (radius + other.radius)
+        return if (distCircle > 0) distCircle else 0.0
+    }
 
     /**
      * Тривиальная (1 балл)
      *
      * Вернуть true, если и только если окружность содержит данную точку НА себе или ВНУТРИ себя
      */
-    fun contains(p: Point): Boolean = TODO()
+    fun contains(p: Point): Boolean = p.distance(center) <= radius
 }
 
 /**
@@ -195,7 +196,30 @@ fun findNearestCirclePair(vararg circles: Circle): Pair<Circle, Circle> = TODO()
  * (построить окружность по трём точкам, или
  * построить окружность, описанную вокруг треугольника - эквивалентная задача).
  */
-fun circleByThreePoints(a: Point, b: Point, c: Point): Circle = TODO()
+fun circleByThreePoints(a: Point, b: Point, c: Point): Circle {
+    require(a.x != b.x && a.x != c.x && b.x != c.x) { "No collinear points allowed." }
+    require(a.y != b.y && a.y != c.y && b.y != c.y) { "No collinear points allowed." }
+
+    val maxX = maxOf(a.x, b.x, c.x)
+    val minX = minOf(a.x, b.x, c.x)
+    val midX = a.x + b.x + c.x - maxX - minX
+
+    val minPoint = listOf(a, b, c).filter { it.x == minX }[0]
+    val midPoint = listOf(a, b, c).filter { it.x == midX }[0]
+    val maxPoint = listOf(a, b, c).filter { it.x == maxX }[0]
+
+    val mA = (midPoint.y - minPoint.y) / (midPoint.x - minPoint.x)
+    val mB = (maxPoint.y - midPoint.y) / (maxPoint.x - midPoint.x)
+
+    val ctrX =
+        (mA * mB * (minPoint.y - maxPoint.y) + mB * (minPoint.x + midPoint.x) - mA * (midPoint.x + maxPoint.x)) / (2 * (mB - mA))
+//    val centerX = (mA * mB * (minPoint.y - maxPoint.y) + mB * (minX + midX) - mA * (midX + maxX)) / (2 * (mB - mA))
+
+    val ppA = (-1 / mA) * (ctrX - (minX + midX) / 2) + (minPoint.y + midPoint.y) / 2
+//    val ppB = (-1 / mB) * (centerX - (midX + maxX) / 2) + (midPoint.y + maxPoint.y) / 2 //pp - perpendicular
+    return Circle(Point(ctrX, ppA), a.distance(Point(ctrX, ppA)))
+
+}
 
 /**
  * Очень сложная (10 баллов)

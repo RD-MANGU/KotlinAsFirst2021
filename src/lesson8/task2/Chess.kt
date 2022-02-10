@@ -181,7 +181,34 @@ fun kingTrajectory(start: Square, end: Square): List<Square> = TODO()
  * Пример: knightMoveNumber(Square(3, 1), Square(6, 3)) = 3.
  * Конь может последовательно пройти через клетки (5, 2) и (4, 4) к клетке (6, 3).
  */
-fun knightMoveNumber(start: Square, end: Square): Int = TODO()
+fun knightMoveNumber(start: Square, end: Square): Int {
+    TODO()
+//    if (start.row == end.row && start.column == end.column) {
+//        return 0
+//    } else if (start.row <= end.row) {
+//        if (start.column <= end.column) {
+//            val x1 = start.row + 2
+//            val y1 = start.column + 1
+//            val x2 = start.row + 1
+//            val y2 = start.column + 2
+//        } else {
+//            val x1 = start.row + 2
+//            val y1 = start.column - 1
+//            val x2 = start.row + 1
+//            val y2 = start.column - 2
+//        }
+//    } else if (start.column <= end.column) {
+//        val x1 = start.row - 2
+//        val y1 = start.column + 1
+//        val x2 = start.row - 1
+//        val y2 = start.column + 2
+//    } else {
+//        val x1 = start.row - 2
+//        val y1 = start.column - 1
+//        val x2 = start.row - 1
+//        val y2 = start.column - 2
+//    }
+}
 
 /**
  * Очень сложная (10 баллов)
