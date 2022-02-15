@@ -26,7 +26,7 @@ data class Point(val x: Double, val y: Double) {
  * Эти три точки хранятся в множестве points, их порядок не имеет значения.
  */
 @Suppress("MemberVisibilityCanBePrivate")
-class Triangle private constructor(private val points: Set<Point>) {
+class Triangle constructor(private val points: Set<Point>) {
 
     private val pointList = points.toList()
 
@@ -197,15 +197,15 @@ fun findNearestCirclePair(vararg circles: Circle): Pair<Circle, Circle> = TODO()
  * построить окружность, описанную вокруг треугольника - эквивалентная задача).
  */
 fun circleByThreePoints(a: Point, b: Point, c: Point): Circle {
-    require(a.x != b.x && a.x != c.x && b.x != c.x) { "No collinear points allowed." }
-    require(a.y != b.y && a.y != c.y && b.y != c.y) { "No collinear points allowed." }
+    val triangle = Triangle(setOf(a, b, c))
+    require(triangle.area() > 0) { "No collinear points allowed." }
 
     val maxX = maxOf(a.x, b.x, c.x)
     val minX = minOf(a.x, b.x, c.x)
-    val midX = a.x + b.x + c.x - maxX - minX
+//    val midX = a.x + b.x + c.x - maxX - minX
 
     val minPoint = listOf(a, b, c).filter { it.x == minX }[0]
-    val midPoint = listOf(a, b, c).filter { it.x == midX }[0]
+    val midPoint = listOf(a, b, c).filter { it.x != minX && it.x != maxX }[0]
     val maxPoint = listOf(a, b, c).filter { it.x == maxX }[0]
 
     val mA = (midPoint.y - minPoint.y) / (midPoint.x - minPoint.x)
@@ -215,7 +215,7 @@ fun circleByThreePoints(a: Point, b: Point, c: Point): Circle {
         (mA * mB * (minPoint.y - maxPoint.y) + mB * (minPoint.x + midPoint.x) - mA * (midPoint.x + maxPoint.x)) / (2 * (mB - mA))
 //    val centerX = (mA * mB * (minPoint.y - maxPoint.y) + mB * (minX + midX) - mA * (midX + maxX)) / (2 * (mB - mA))
 
-    val ppA = (-1 / mA) * (ctrX - (minX + midX) / 2) + (minPoint.y + midPoint.y) / 2
+    val ppA = (-1 / mA) * (ctrX - (minPoint.x + midPoint.x) / 2) + (minPoint.y + midPoint.y) / 2
 //    val ppB = (-1 / mB) * (centerX - (midX + maxX) / 2) + (midPoint.y + maxPoint.y) / 2 //pp - perpendicular
     return Circle(Point(ctrX, ppA), a.distance(Point(ctrX, ppA)))
 
