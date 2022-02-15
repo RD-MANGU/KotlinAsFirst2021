@@ -304,18 +304,20 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
 //    println(textList)
     var textBody = "<html>\n<body>\n<p>\n${textList.joinToString("\n")}\n</p>\n</body>\n</html>"
 //    println(textBody)
-//    val listSymbol = mutableListOf("**", "*", "~~")
-    while ("**" in textBody) {
-        textBody = textBody.replaceFirst(Regex("""\*\*"""), "<b>")
-        textBody = textBody.replaceFirst(Regex("""\*\*"""), "</b>")
-    }
-    while ("*" in textBody) {
-        textBody = textBody.replaceFirst(Regex("""\*"""), "<i>")
-        textBody = textBody.replaceFirst(Regex("""\*"""), "</i>")
-    }
-    while ("~~" in textBody) {
-        textBody = textBody.replaceFirst(Regex("""~~"""), "<s>")
-        textBody = textBody.replaceFirst(Regex("""~~"""), "</s>")
+    val listSymbol = mutableListOf("**", "*", "~~")
+    if (listSymbol.any { it in textBody }) {
+        while ("**" in textBody) {
+            textBody = textBody.replaceFirst(Regex("""\*\*"""), "<b>")
+            textBody = textBody.replaceFirst(Regex("""\*\*"""), "</b>")
+        }
+        while ("*" in textBody) {
+            textBody = textBody.replaceFirst(Regex("""\*"""), "<i>")
+            textBody = textBody.replaceFirst(Regex("""\*"""), "</i>")
+        }
+        while ("~~" in textBody) {
+            textBody = textBody.replaceFirst(Regex("""~~"""), "<s>")
+            textBody = textBody.replaceFirst(Regex("""~~"""), "</s>")
+        }
     }
     textBody = textBody.replace(Regex("""<p></p>"""), "")
     File(outputName).bufferedWriter().use { it.write(textBody) }
