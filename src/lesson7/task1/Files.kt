@@ -306,16 +306,16 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
 //    println(textBody)
 //    val listSymbol = mutableListOf("**", "*", "~~")
     do {
-        textBody = textBody.replaceFirst(Regex("\\*\\*"), "<b>")
-        textBody = textBody.replaceFirst(Regex("\\*\\*"), "</b>")
+        textBody = textBody.replaceFirst(Regex("""\*\*"""), "<b>")
+        textBody = textBody.replaceFirst(Regex("""\*\*"""), "</b>")
     } while ("**" in textBody)
     do {
-        textBody = textBody.replaceFirst(Regex("\\*"), "<i>")
-        textBody = textBody.replaceFirst(Regex("\\*"), "</i>")
+        textBody = textBody.replaceFirst(Regex("""\*"""), "<i>")
+        textBody = textBody.replaceFirst(Regex("""\*"""), "</i>")
     } while ("*" in textBody)
     do {
-        textBody = textBody.replaceFirst(Regex("~~"), "<s>")
-        textBody = textBody.replaceFirst(Regex("~~"), "</s>")
+        textBody = textBody.replaceFirst(Regex("""~~"""), "<s>")
+        textBody = textBody.replaceFirst(Regex("""~~"""), "</s>")
     } while ("~~" in textBody)
     File(outputName).bufferedWriter().use { it.write(textBody) }
 }
