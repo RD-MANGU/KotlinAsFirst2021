@@ -200,8 +200,8 @@ fun circleByThreePoints(a: Point, b: Point, c: Point): Circle {
     val triangle = Triangle(setOf(a, b, c))
     require(triangle.area() > 0) { "No collinear points allowed." }
 
-    val maxX = ceil(maxOf(a.x, b.x, c.x) * 100) / 100
-    val minX = ceil(minOf(a.x, b.x, c.x) * 100) / 100
+    val maxX = maxOf(a.x, b.x, c.x)
+    val minX = minOf(a.x, b.x, c.x)
 //    val midX = a.x + b.x + c.x - maxX - minX
 
     val minPoint = listOf(a, b, c).filter { it.x == minX }[0]
@@ -217,7 +217,7 @@ fun circleByThreePoints(a: Point, b: Point, c: Point): Circle {
 
     val ppA = (-1 / mA) * (ctrX - (minPoint.x + midPoint.x) / 2) + (minPoint.y + midPoint.y) / 2
 //    val ppB = (-1 / mB) * (centerX - (midX + maxX) / 2) + (midPoint.y + maxPoint.y) / 2 //pp - perpendicular
-    return Circle(Point(ctrX, ppA), a.distance(Point(ctrX, ppA)))
+    return Circle(Point(ctrX, ppA), midPoint.distance(Point(ctrX, ppA)))
 
 }
 
