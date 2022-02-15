@@ -312,7 +312,7 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
         textBody = textBody.replaceFirst(Regex("\\*"), "</i>")
         textBody = textBody.replaceFirst(Regex("~~"), "<s>")
         textBody = textBody.replaceFirst(Regex("~~"), "</s>")
-    } while (listSymbol.count { it in textBody } > 1)
+    } while (listSymbol.count { it in textBody } != 0)
     File(outputName).bufferedWriter().use { it.write(textBody) }
 }
 
