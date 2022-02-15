@@ -318,7 +318,7 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
         textBody = textBody.replaceFirst(Regex("""~~"""), "</s>")
     } while ("~~" in textBody)
     while ("<p></p>" in textBody) {
-        textBody = textBody.replaceFirst(Regex("""<p></p>"""), "")
+        textBody = textBody.replace(Regex("""<p></p>"""), "")
     }
     File(outputName).bufferedWriter().use { it.write(textBody) }
 }
