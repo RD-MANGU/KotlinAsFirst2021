@@ -228,14 +228,14 @@ fun firstDuplicateIndex(str: String): Int {
     val listString = strLowerCase.split(" ")
     if (listString.size < 2) return -1
     var res = ""
-    for (string in listString.indices) {
+    for (string in 0..listString.size - 2) {
         val prev = listString[string]
         if (prev == listString[string + 1]) {
             res = prev + " " + listString[string + 1]
             break
-        }
+        } else res = "-1"
     }
-    return if (strLowerCase.indexOf(res) == null) -1 else strLowerCase.indexOf(res)
+    return strLowerCase.indexOf(res)
 }
 
 /**
