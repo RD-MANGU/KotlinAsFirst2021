@@ -301,15 +301,20 @@ fun propagateHandshakes(friends: Map<String, Set<String>>): Map<String, Set<Stri
         emittersList.add(emitter)
     }
 
-    for (receptors in receptorsList.indices) {
-        val receptorsArray = receptorsList[receptors]
-        val e = emittersList[receptors]
-        for (receptor in receptorsArray) {
-            if (receptor !in emittersList) continue
-            if (friendsMap[e]!!.contains(friendsMap[receptor] ?: false) && friendsMap[receptor]!!.contains(e)) continue
-            else if (friendsMap[e]!!.contains(friendsMap[receptor] ?: true)) friendsMap[receptor] =
-                friendsMap[receptor]!! + friendsMap[e]!!.filter { it != receptor }   //- receptor
-            else friendsMap[e] = friendsMap[e]!! + friendsMap[receptor]!!.filter { it != e }     //- e
+    for (i in friendsMap.size downTo 0) {
+        for (receptors in receptorsList.indices) {
+            val receptorsArray = receptorsList[receptors]
+            val e = emittersList[receptors]
+            for (receptor in receptorsArray) {
+                if (receptor !in emittersList) continue
+                if (friendsMap[e]!!.contains(
+                        friendsMap[receptor] ?: false
+                    ) && friendsMap[receptor]!!.contains(e)
+                ) continue
+                else if (friendsMap[e]!!.contains(friendsMap[receptor] ?: true)) friendsMap[receptor] =
+                    friendsMap[receptor]!! + friendsMap[e]!!.filter { it != receptor }   //- receptor
+                else friendsMap[e] = friendsMap[e]!! + friendsMap[receptor]!!.filter { it != e }     //- e
+            }
         }
     }
     receptorsList.forEach { receptor ->
