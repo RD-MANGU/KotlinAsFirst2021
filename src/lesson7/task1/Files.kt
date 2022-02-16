@@ -320,7 +320,6 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
         }
         textBody = textBody.replace(Regex("""<p></p>"""), "")
     }
-    textBody = textBody.replace(Regex("""<p></p>"""), "")
     File(outputName).bufferedWriter().use { it.write(textBody) }
 }
 
