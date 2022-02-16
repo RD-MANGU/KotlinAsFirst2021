@@ -305,15 +305,19 @@ fun markdownToHtmlSimple(inputName: String, outputName: String) {
     var textBody = "<html>\n<body>\n<p>\n${textList.joinToString("\n")}\n</p>\n</body>\n</html>"
 //    println(textBody)
     val listSymbol = mutableListOf("**", "*", "~~")
-    if (listSymbol.any { it in textBody }) {
+    if (listSymbol[0] in textBody) {
         do {
             textBody = textBody.replaceFirst(Regex("""\*\*"""), "<b>")
             textBody = textBody.replaceFirst(Regex("""\*\*"""), "</b>")
         } while ("**" in textBody)
+    }
+    if (listSymbol[1] in textBody) {
         do {
             textBody = textBody.replaceFirst(Regex("""\*"""), "<i>")
             textBody = textBody.replaceFirst(Regex("""\*"""), "</i>")
         } while ("*" in textBody)
+    }
+    if (listSymbol[2] in textBody) {
         do {
             textBody = textBody.replaceFirst(Regex("""~~"""), "<s>")
             textBody = textBody.replaceFirst(Regex("""~~"""), "</s>")
