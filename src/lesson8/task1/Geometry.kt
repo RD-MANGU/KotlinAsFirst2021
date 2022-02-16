@@ -217,7 +217,7 @@ fun circleByThreePoints(a: Point, b: Point, c: Point): Circle {
 
     val ppA = (-1 / mA) * (ctrX - (minPoint.x + midPoint.x) / 2) + (minPoint.y + midPoint.y) / 2
 //    val ppB = (-1 / mB) * (centerX - (midX + maxX) / 2) + (midPoint.y + maxPoint.y) / 2 //pp - perpendicular
-    return Circle(Point(ctrX, ppA), midPoint.distance(Point(ctrX, ppA)))
+    return Circle(Point(ctrX, ppA), sqrt((b.x - ctrX).pow(2) + (b.y - ppA).pow(2)))
 
 }
 
