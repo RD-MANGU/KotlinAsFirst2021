@@ -206,7 +206,7 @@ fun circleByThreePoints(a: Point, b: Point, c: Point): Circle {
 
     val minPoint = listOf(a, b, c).first { it.x == minX }
     val maxPoint = listOf(a, b, c).first { it.x == maxX }
-    val midPoint = listOf(a, b, c).first { it.y != maxPoint.y && it.y != minPoint.y }
+    val midPoint = listOf(a, b, c).first { it != maxPoint && it != minPoint }
 
     val mA = (midPoint.y - minPoint.y) / (midPoint.x - minPoint.x)
     val mB = (maxPoint.y - midPoint.y) / (maxPoint.x - midPoint.x)
